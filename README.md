@@ -60,3 +60,29 @@ npm test
 After this, you will see the test results prompted to the terminal. If you have a look at the `package.json` file, you will see that it executes the collection stored in the `postman` folder of the repo root.
 
 Important: When dealing with JSON data, please, make sure that you restart the server with `npm run dev` every time you execute tests! This is important because some tests will remove data via DELETE endpoints and that operation cannot be repeated with the same ID again and again.
+
+
+//username: j68antwwhouq3tmgoqmm
+//password: pscale_pw_uDFdIkh3n7Lm06hdGG5ako77G4eyU3K9jIzxVWMbkD3
+
+next command: npx prisma db push
+
+javascript:
+
+const { PrismaClient } = require('@prisma/client')
+
+const prisma = new PrismaClient()
+
+async function main() {
+  // ... you will write your Prisma Client queries here
+}
+
+main()
+  .then(async () => {
+    await prisma.$disconnect()
+  })
+  .catch(async (e) => {
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })
