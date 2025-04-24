@@ -34,6 +34,15 @@
       "propertyId": "j2345678-90f1-2345-6789-abcdef012345",
       "rating": 5,
       "comment": "A perfect stay! Can't wait to come back."
+    },
+    {
+      "id": "61d91a32-3604-4c5a-8c95-63a94c473a91",
+      "userId": "e5678901-23f0-1234-5678-9abcdef01234",
+      "propertyId": "j2345678-90f1-2345-6789-abcdef012345",
+      "rating": 5000,
+      "comment": "Joejoe - A perfect stay! Can't wait to come back."
     }
   ]
 }
+
+

@@ -1156,7 +1156,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"username\": \"newhosty \",\n  \"password\": \"password123\",\n  \"name\": \"John Doe\",\n  \"email\": \"johndoe@email.com\",\n  \"phoneNumber\": \"+11234567890\",\n  \"profilePicture\": \"https://example.com/images/johndoe.jpg\",\n  \"aboutMe\": \"I'm a passionate traveler who loves to share my home with fellow explorers. Welcome!\"\n}",
+              "raw": "{\n  \"username\": \"1newhosty \",\n  \"password\": \"password123\",\n  \"name\": \"John Doe\",\n  \"email\": \"1johndoe@email.com\",\n  \"phoneNumber\": \"+11234567890\",\n  \"profilePicture\": \"https://example.com/images/johndoe.jpg\",\n  \"aboutMe\": \"I'm a passionate traveler who loves to share my home with fellow explorers. Welcome!\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1266,7 +1266,7 @@
                   "variable": [
                     {
                       "key": "propertyId",
-                      "value": "h0123456-78f0-1234-5678-9abcdef01234",
+                      "value": "6959ba85-46d7-4ada-b9b3-508657b48034",
                       "description": "(Required) "
                     }
                   ]
@@ -1387,7 +1387,7 @@
                   "variable": [
                     {
                       "key": "propertyId",
-                      "value": "h0123456-78f0-1234-5678-9abcdef01234",
+                      "value": "6959ba85-46d7-4ada-b9b3-508657b48034",
                       "description": "(Required) "
                     }
                   ]
@@ -1570,7 +1570,7 @@
                   "variable": [
                     {
                       "key": "propertyId",
-                      "value": "h0123456-78f0-1234-5678-9abcdef01234",
+                      "value": "6959ba85-46d7-4ada-b9b3-508657b48034",
                       "description": "(Required) "
                     }
                   ]

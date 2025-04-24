@@ -57,12 +57,15 @@ router.get('/', async (req, res) => {
 
 
   router.put('/:id', authMiddleware, async (req, res) => {
+    const { id } = req.params
+    const updateData = req.body
     try {
-      const { id } = req.params
-      const { userId, propertyId, rating, comment } = req.body
-      const updatedReview = await updateReviewById(id, userId, propertyId, rating, comment)
+      const updatedReview = await updateReviewById(id, updateData)
       res.status(200).json(updatedReview)
     } catch (error) {
+      if (error.message === 'User not found') {
+        return res.status(404).json({ error: 'User not found' });
+      }
       console.error(error)
       res.status(500).send('Something went wrong while updating book by id!')
     }
@@ -82,6 +85,9 @@ router.get('/', async (req, res) => {
         })
       }
     } catch (error) {
+      if (error.message === 'User not found') {
+        return res.status(404).json({ error: 'User not found' });
+      }
       console.error(error)
       res.status(500).send('Something went wrong while deleting book by id!')
     }

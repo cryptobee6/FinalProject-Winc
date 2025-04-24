@@ -1,17 +1,23 @@
-import amenityData from '../../src/data/amenities.json' with { type: "json" };
+import { PrismaClient } from '@prisma/client';
 import { v4 as uuid } from 'uuid'
 
 
-
-const deleteAmenity = (id) => {
-  const index = amenityData.amenities.findIndex((amenity) => amenity.id === id)
-
-  if (index === -1) {
-    return null
+const deleteAmenity = async (id) => {
+  const prisma = new PrismaClient()
+  try{
+    const amenity = await prisma.amenity.findUnique({ where: { id: id } });
+    if (!amenity) {
+      throw new Error("User not found");
+    }
+    const deletedAmenity = await prisma.amenity.delete({
+      where: {
+        id: id,
+      }
+    })
+    return deletedAmenity
+  } catch (error){
+    throw error
   }
-
-  amenityData.amenity.splice(index, 1)
-  return id
 }
 
 export default deleteAmenity

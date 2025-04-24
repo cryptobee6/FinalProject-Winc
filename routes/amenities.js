@@ -4,13 +4,15 @@ import deleteAmenity from '../services/amenities/deleteAmenity.js'
 import updateAmenityById from '../services/amenities/updateAmenityById.js';
 import express from "express";
 import authMiddleware from '../middleware/auth.js';
+import getSingleAmenity from '../services/amenities/getSingleAmenity.js';
 
 
 const router = express.Router()
 
-router.get('/', authMiddleware, (req, res) => {
+router.get('/', async (req, res) => {
     try {
-      const amenities = viewAmenities()
+      const {name} = req.query
+      const amenities = await viewAmenities(name)
       res.status(200).json(amenities)
     } catch (error) {
       console.error(error)
@@ -18,51 +20,77 @@ router.get('/', authMiddleware, (req, res) => {
     }
   });
 
-  router.post('/', (req, res) => {
+  router.get('/:id', async (req, res, next) => {
+    const { id } = req.params;  // Haal de 'id' parameter uit de URL
+    
+    if (!id) {
+      // Controleer of de id wel is meegegeven, anders geef een foutmelding
+      return res.status(400).json({ message: 'id is missing' });
+    }
+  
     try {
-      const { name } = req.body
-      const newAmenity = createAmenity(name)
+      const amenity = await getSingleAmenity(id); // Haal de gebruiker op met de id
+      if (!amenity) {
+        // Als er geen gebruiker wordt gevonden, stuur een 404
+        return res.status(404).json({ message: 'User not found' });
+      }
+      res.status(200).json(amenity); // Retourneer de gebruiker als JSON
+    } catch (error) {
+      next(error); // Fout doorgeven aan de globale foutverwerker
+    }
+  });
+
+  router.post('/', authMiddleware, async (req, res, next) => {
+    const { name } = req.body
+    if(!name){
+      return res.status(400).json({ message: 'more info required'})
+    }
+    try {
+      const newAmenity = await createAmenity(name)
       res.status(201).json(newAmenity)
     } catch (error) {
-      console.error(error)
-      res.status(500).send('Something went wrong while creating new book!')
+      next(error)
     }
   })
 
 
-  router.put('/:id', (req, res) => {
-    try {
+  router.put('/:id', authMiddleware, async (req, res) => {
+
       const { id } = req.params
-      const { name } = req.body
-      const updatedAmenity = updateAmenityById(
-        id,
-        name
-      )
+      const updateData = req.body
+
+      try{
+      const updatedAmenity = await updateAmenityById(id, updateData)
       res.status(200).json(updatedAmenity)
     } catch (error) {
+      if (error.message === 'User not found') {
+        return res.status(404).json({ error: 'User not found' });
+      }
       console.error(error)
-      res.status(500).send('Something went wrong while updating book by id!')
+      res.status(500).send('Something went wrong while updating Amenity by id!')
     }
   })
 
-  router.delete('/:id', (req, res) => {
+  router.delete('/:id', authMiddleware, async (req, res) => {
     try {
-      const { id } = req.params
-      const deletedAmenityId = deleteAmenity(id)
-  
-      if (!deletedAmenityId) {
-        res.status(404).send(`Book with id ${id} was not found!`)
-      } else {
-        res.status(200).json({
-          message: `Book with id ${deletedAmenityId} was deleted!`
-        })
-      }
-    } catch (error) {
+    const { id } = req.params
+    const deletedAmenityId = await deleteAmenity(id)
+    if (!deletedAmenityId){
+      res.status(404).send(`Amenity with id ${id} was not found!`)
+    } else {
+      res.status(200).json({
+        message: `Amenity with id ${id} was deleted`
+      })
+    }      
+   } catch (error) {
+    if (error.message === 'User not found') {
+      return res.status(404).json({ error: 'User not found' });
+    }
       console.error(error)
-      res.status(500).send('Something went wrong while deleting book by id!')
+      res.status(500).send('Something went wrong while deleting amenity by id!')
     }
   })
-  
+
 
 
 

@@ -59,6 +59,21 @@
       "maxGuestCount": 6,
       "hostId": "b5678901-23ef-0123-4567-89abcdef0123",
       "rating": 4
+    },
+    {
+      "id": "6959ba85-46d7-4ada-b9b3-508657b48034",
+      "title": "Amsterdam",
+      "description": "Joejoe - Step back in time and enjoy the simple pleasures of our traditional farmhouse.",
+      "location": "Nashville, Tennessee",
+      "pricePerNight": 85.0,
+      "bedroomCount": 3,
+      "bathRoomCount": 2,
+      "maxGuestCount": 6,
+      "hostId": "b5678901-23ef-0123-4567-89abcdef0123",
+      "rating": 4
     }
   ]
 }
+
+
+

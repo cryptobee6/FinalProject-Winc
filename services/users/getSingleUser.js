@@ -18,7 +18,7 @@ async function getSingleUser(id) {
     })
 
     if (!user){
-        throw ("hello something went wrong")
+        return null
     }
     
     return user;

@@ -56,13 +56,16 @@ router.get('/', async (req, res) => {
 
 
   router.put('/:id', authMiddleware, async (req, res) => {
-    
       const { id } = req.params
       const updateData = req.body
+      
       try {
       const updatedBooking = await updateBookingById( id, updateData )
       res.status(200).json(updatedBooking)
     } catch (error) {
+      if (error.message === 'User not found') {
+        return res.status(404).json({ error: 'User not found' });
+      }
       console.error(error)
       res.status(500).send('Something went wrong while updating book by id!')
     }
@@ -75,6 +78,9 @@ router.get('/', async (req, res) => {
       res.status(200).json({message: `Book with id ${deletedBookingId} was deleted!`
       })
     } catch (error) {
+      if (error.message === 'User not found') {
+        return res.status(404).json({ error: 'User not found' });
+      }
       console.error(error)
       res.status(500).send('Something went wrong while deleting booking by id!')
     }

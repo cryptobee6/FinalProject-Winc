@@ -16,8 +16,10 @@ async function getSingleProperty(id) {
         },
     })
 
+    console.log("property", property)
+
     if (!property){
-        throw ("hello something went wrong")
+        return null
     }
     
     return property;

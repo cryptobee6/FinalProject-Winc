@@ -1,14 +1,18 @@
-import amenityData from '../../src/data/amenities.json' with { type: "json" };
+import { PrismaClient } from '@prisma/client';
 import { v4 as uuid } from 'uuid'
 
-const createAmenity = (name) => {
-    const newAmenity = {
+const createAmenity = async (name) => {
+  const prisma = new PrismaClient()  
+  try{
+  const newAmenity = await prisma.amenity.create({
+    data: {
       id: uuid(),
-      name
+      name,
     }
-  
-    amenityData.users.push(newAmenity)
+  })
     return newAmenity
+  } catch (error){
+    throw error
   }
-  
+}
   export default createAmenity

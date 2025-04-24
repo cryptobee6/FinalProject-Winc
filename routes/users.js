@@ -58,6 +58,7 @@ const router = Router();
 
     try {
       const newUser = await createUser( username, password, name, email, phoneNumber, profilePicture);
+      console.log("newUser:", newUser)
       res.status(201).json(newUser)
     } catch (error) {
       next(error)
@@ -105,10 +106,15 @@ const router = Router();
   router.put('/:id', async (req, res) => {
     const { id } = req.params
     const updateData = req.body
+    
     try {    
-      const updatedUser = await updateUserById(id, updateData)      
+      const updatedUser = await updateUserById(id, updateData) 
       res.status(200).json(updatedUser)
     } catch (error) {
+      if (error.message === 'User not found') {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
       console.error(error)
       res.status(500).send('Something went wrong while updating book by id!')
     }
@@ -122,6 +128,10 @@ const router = Router();
       })
 
     } catch (error) {
+      if (error.message === 'User not found') {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
       console.error(error)
       res.status(500).send('Something went wrong while deleting user by id!')
     }

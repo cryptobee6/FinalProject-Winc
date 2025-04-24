@@ -17,7 +17,7 @@ async function getSingleBooking(id) {
     })
 
     if (!booking){
-        throw ("hello something went wrong")
+        return null 
     }
     
     return booking;

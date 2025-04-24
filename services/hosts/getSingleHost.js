@@ -17,7 +17,7 @@ async function getSingleHost(id) {
     })
 
     if (!host){
-        throw ("hello something went wrong")
+        return null
     }
     
     return host;

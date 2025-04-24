@@ -43,10 +43,11 @@ router.get('/', async (req, res) => {
   router.post('/', authMiddleware, async (req, res, next) => {
     const { username, password, name, email, phoneNumber, profilePicture, aboutMe } = req.body
     if(!username || !password || !name || !email || !phoneNumber || !profilePicture || !aboutMe){
-        res.status(400).json({ message: 'more info required'})
+        return res.status(400).json({ message: 'more info required'})
     }
     try {
-      const newHost = await createHost(username, password, name, email, phoneNumber, profilePicture, aboutMe)
+      const newHost = await createHost( username, password, name, email, phoneNumber, profilePicture, aboutMe)
+      console.log("newHost:", newHost)
       res.status(201).json(newHost)
     } catch (error) {
       next(error)
@@ -61,6 +62,9 @@ router.get('/', async (req, res) => {
       const updatedHost = await updateHostById(id, updateData)
       res.status(200).json(updatedHost)      
     } catch (error) {
+      if (error.message === 'User not found') {
+        return res.status(404).json({ error: 'User not found' });
+      }
       console.error(error)
       res.status(500).send('Something went wrong while updating host by id!')
     }
@@ -79,6 +83,9 @@ router.get('/', async (req, res) => {
         })
       }
     } catch (error) {
+      if (error.message === 'User not found') {
+        return res.status(404).json({ error: 'User not found' });
+      }
       console.error(error)
       res.status(500).send('Something went wrong while deleting book by id!')
     }

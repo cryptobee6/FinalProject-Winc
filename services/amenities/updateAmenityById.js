@@ -1,16 +1,21 @@
-import amenityData from '../../src/data/amenities.json' with { type: "json" };
+import { PrismaClient } from '@prisma/client';
 import { v4 as uuid } from 'uuid'
 
-const updateAmenityById = (id, name) => {
-    const amenity = amenityData.amenities.find((amenity) => amenity.id === id)
-  
+const updateAmenityById = async (id, updateData) => {
+  const prisma = new PrismaClient()
+  try{
+    const amenity = await prisma.amenity.findUnique({ where: { id } });
     if (!amenity) {
-      throw new Error(`Book with id ${id} was not found!`)
+      throw new Error("User not found");
     }
-
-    amenity.name = name ?? amenity.name
-  
-    return amenity
-  }
+    const updatedAmenityById = await prisma.amenity.update({
+      where: {id: id},
+      data: updateData
+    }
+  ) 
+  return updatedAmenityById
+  } catch(error){
+    throw error
+  }  }
   
   export default updateAmenityById
