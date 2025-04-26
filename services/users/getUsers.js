@@ -2,18 +2,17 @@
 import { PrismaClient } from '@prisma/client';
 import { v4 as uuid } from 'uuid'
 
-const viewUsers = async (id, username, email) => {
+const viewUsers = async (username) => {
   const prisma = new PrismaClient();
-
+console.log(typeof username, username)
   const users = await prisma.user.findMany({
-    where:{
-      id: id,
+    where: {
       username: username,
-      email: email,
     }
   })
+  console.log("users:", users)
 if (!users) {
-  throw new NotFoundError('username', username);
+  throw new Error("No property found");
 }
 return users;
 };

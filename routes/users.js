@@ -15,12 +15,15 @@ const router = Router();
 
 
   router.get('/', async (req, res, next) => {
-    const {username, email} = req.query
+    const {username} = req.query
     console.log("username:", username)
     try {
-      const users = await getUsers(username, email)
+      const users = await getUsers(username)
       res.status(200).json(users)
     } catch (error) {
+      if (error.message === 'User not found') {
+        return res.status(404).json({ error: 'User not found' });
+      }
       next(error)
     }
   });
@@ -66,23 +69,23 @@ const router = Router();
   })
 
 
-  router.get('/', async (req, res) => {
-    const { username } = req.query;
-    if (!username) {
-      return res.status(400).json({ message: 'Username is required' });
-    }
-    try {
-      const username1 = await getUsername(username);
-      if (username1){  
-      res.status(200).json(username1); // Retourneer de gebruiker en berichten
-    } else {
-      res.status(404).json({ message: `Gebruiker met username ${username} niet gevonden` });
-    }
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Something went wrong' });
-    }
-  });
+  // router.get('/', async (req, res) => {
+  //   const { username } = req.query;
+  //   if (!username) {
+  //     return res.status(400).json({ message: 'Username is required' });
+  //   }
+  //   try {
+  //     const username1 = await getUsername(username);
+  //     if (username1){  
+  //     res.status(200).json(username1); // Retourneer de gebruiker en berichten
+  //   } else {
+  //     res.status(404).json({ message: `Gebruiker met username ${username} niet gevonden` });
+  //   }
+  // } catch (error) {
+  //     console.error(error);
+  //     res.status(500).json({ error: 'Something went wrong' });
+  //   }
+  // });
 
 
   router.get('/:id/reviews', async (req, res) => {
@@ -103,7 +106,7 @@ const router = Router();
   });
 
 
-  router.put('/:id', async (req, res) => {
+  router.put('/:id', authMiddleware, async (req, res) => {
     const { id } = req.params
     const updateData = req.body
     
@@ -115,12 +118,10 @@ const router = Router();
         return res.status(404).json({ error: 'User not found' });
       }
 
-      console.error(error)
-      res.status(500).send('Something went wrong while updating book by id!')
     }
   })
 
-  router.delete('/:userId', async (req, res) => {
+  router.delete('/:userId', authMiddleware, async (req, res) => {
     const { userId } = req.params
     try {
       const deletedUserId = await deleteUser(userId)
@@ -132,8 +133,6 @@ const router = Router();
         return res.status(404).json({ error: 'User not found' });
       }
 
-      console.error(error)
-      res.status(500).send('Something went wrong while deleting user by id!')
     }
   })
   

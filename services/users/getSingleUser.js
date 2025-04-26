@@ -14,6 +14,13 @@ async function getSingleUser(id) {
     const user = await prisma.user.findUnique({
         where: {
             id: id,
+        }, select: {
+            id: true,
+            username: true,
+            name: true,
+            email: true,
+            phoneNumber: true,
+            profilePicture: true,
         },
     })
 
@@ -30,3 +37,4 @@ catch (error){
 
 
 export default getSingleUser;
+

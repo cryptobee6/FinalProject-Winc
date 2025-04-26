@@ -66,8 +66,7 @@ router.get('/', async (req, res) => {
       if (error.message === 'User not found') {
         return res.status(404).json({ error: 'User not found' });
       }
-      console.error(error)
-      res.status(500).send('Something went wrong while updating book by id!')
+
     }
   })
 
@@ -81,8 +80,7 @@ router.get('/', async (req, res) => {
       if (error.message === 'User not found') {
         return res.status(404).json({ error: 'User not found' });
       }
-      console.error(error)
-      res.status(500).send('Something went wrong while deleting booking by id!')
+
     }
   })
   

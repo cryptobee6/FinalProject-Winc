@@ -66,14 +66,14 @@ router.get('/', async (req, res) => {
       if (error.message === 'User not found') {
         return res.status(404).json({ error: 'User not found' });
       }
-      console.error(error)
-      res.status(500).send('Something went wrong while updating book by id!')
+
     }
   })
 
   router.delete('/:id', authMiddleware, async (req, res) => {
+    const { id } = req.params
     try {
-      const { id } = req.params
+      
       console.log("id", id)
       const deletedReviewId = await deleteReview(id)
       console.log("deletedReview:", deleteReview)
@@ -88,8 +88,7 @@ router.get('/', async (req, res) => {
       if (error.message === 'User not found') {
         return res.status(404).json({ error: 'User not found' });
       }
-      console.error(error)
-      res.status(500).send('Something went wrong while deleting book by id!')
+
     }
   })
   

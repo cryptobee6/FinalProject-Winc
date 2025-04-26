@@ -22,8 +22,9 @@ router.get('/', async (req, res) => {
       
       res.status(200).json(properties)
     } catch (error) {
-      console.error(error)
-      res.status(500).send('Something went wrong while getting list of amenities!')
+      if (error.message === 'No property found') {
+        return res.status(404).json({ error: 'Property not found' });
+      }
     }
   });
 
@@ -91,8 +92,7 @@ router.get('/:id/hosts', async (req, res, next) => {
       if (error.message === 'User not found') {
         return res.status(404).json({ error: 'User not found' });
       }
-      console.error(error)
-      res.status(500).send('Something went wrong while updating book by id!')
+  
     }
   })
 
@@ -107,8 +107,7 @@ router.get('/:id/hosts', async (req, res, next) => {
       if (error.message === 'User not found') {
         return res.status(404).json({ error: 'User not found' });
       }
-      console.error(error)
-      res.status(500).send('Something went wrong while deleting book by id!')
+
     }
   })
   

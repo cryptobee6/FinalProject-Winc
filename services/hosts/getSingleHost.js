@@ -13,7 +13,15 @@ async function getSingleHost(id) {
     const host = await prisma.host.findUnique({
         where: {
             id: id,
-        },
+        }, select: {
+            id: true,
+            username: true,
+            name: true,
+            email: true,
+            phoneNumber: true,
+            profilePicture: true,
+            aboutMe: true,
+        }
     })
 
     if (!host){

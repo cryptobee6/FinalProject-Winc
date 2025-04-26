@@ -9,9 +9,15 @@ const viewProperties = async (location, pricePerNight)=> {
       location: {
         contains: location,
       },
-      pricePerNight: pricePerNight
-    }
+      pricePerNight: {
+        equals: pricePerNight
+    },
+  },
   })
+  console.log("properties:", properties)
+  if (properties.length === 0) {
+    throw new Error("No property found");
+  }
   return properties;
 }
 
